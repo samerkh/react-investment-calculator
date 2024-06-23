@@ -1,7 +1,11 @@
 import React from "react";
-import { formatter } from "../util/investment";
+import { calculateInvestmentResults, formatter } from "../util/investment";
 
-export default function Result({ result }) {
+export default function Result({ userInput }) {
+  const result = calculateInvestmentResults(userInput);
+  const initialInvestment =
+    result[0].valueEndOfYear - result[0].interest - result[0].annualInvestment;
+
   return (
     <table id="result">
       <thead>
@@ -15,15 +19,22 @@ export default function Result({ result }) {
       </thead>
       <tbody>
         {result &&
-          result.map((item, index) => (
-            <tr key={index}>
-              <td>{item.year}</td>
-              <td>{formatter.format(item.annualInvestment)}</td>
-              <td>{formatter.format(item.interest)}</td>
-              <td>{formatter.format(item.valueEndOfYear)}</td>
-              <td>{0}</td>
-            </tr>
-          ))}
+          result.map((item, index) => {
+            const totalInterest =
+              item.valueEndOfYear -
+              item.annualInvestment * item.year -
+              initialInvestment;
+            const totalAmoutInvested = item.valueEndOfYear - totalInterest;
+            return (
+              <tr key={item.year}>
+                <td>{item.year}</td>
+                <td>{formatter.format(item.valueEndOfYear)}</td>
+                <td>{formatter.format(item.interest)}</td>
+                <td>{formatter.format(totalInterest)}</td>
+                <td>{formatter.format(totalAmoutInvested)}</td>
+              </tr>
+            );
+          })}
       </tbody>
     </table>
   );
