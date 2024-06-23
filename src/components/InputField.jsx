@@ -1,9 +1,9 @@
 import React from "react";
 export default function InputField({ label, ...props }) {
   return (
-    <div>
+    <p>
       <label>{label}</label>
       <input type="number" {...props} />
-    </div>
+    </p>
   );
 }

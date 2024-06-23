@@ -1,19 +1,11 @@
 import React from "react";
 import InputField from "./InputField";
 
-export default function InputGroup({ onInputChange }) {
-  const [initialInvestment, setInitialInvestment] = React.useState(0);
-  const [annualInvestment, setAnnualInvestment] = React.useState(0);
-  const [expectedReturn, setExpectedReturn] = React.useState(0);
-  const [duration, setDuration] = React.useState(0);
+export default function InputGroup({ onInputChange, userInput }) {
+  function handleChange(input, value) {
+    userInput = { ...userInput, [input]: parseFloat(value) };
 
-  function handleChange() {
-    onInputChange({
-      initialInvestment,
-      annualInvestment,
-      expectedReturn,
-      duration,
-    });
+    onInputChange(userInput);
   }
 
   return (
@@ -22,18 +14,16 @@ export default function InputGroup({ onInputChange }) {
         <InputField
           label="initial investment"
           onChange={(e) => {
-            setInitialInvestment(e.target.value);
-            handleChange();
+            handleChange("initialInvestment", e.target.value);
           }}
-          value={initialInvestment}
+          value={userInput.initialInvestment}
         />
         <InputField
           label="annual investment"
           onChange={(e) => {
-            setAnnualInvestment(e.target.value);
-            handleChange();
+            handleChange("annualInvestment", e.target.value);
           }}
-          value={annualInvestment}
+          value={userInput.annualInvestment}
         />
       </div>
 
@@ -41,18 +31,16 @@ export default function InputGroup({ onInputChange }) {
         <InputField
           label="expected return"
           onChange={(e) => {
-            setExpectedReturn(e.target.value);
-            handleChange();
+            handleChange("expectedReturn", e.target.value);
           }}
-          value={expectedReturn}
+          value={userInput.expectedReturn}
         />
         <InputField
           label="duration"
           onChange={(e) => {
-            setDuration(e.target.value);
-            handleChange();
+            handleChange("duration", e.target.value);
           }}
-          value={duration}
+          value={userInput.duration}
         />
       </div>
     </div>
